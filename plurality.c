@@ -39,16 +39,16 @@ int main(int argc, string argv[])
         printf("Maximum number of candidates is %i\n", MAX);
         return 2;
     }
-    for (int i = 0; i < candidate_count; i++)
+    for (int index_count = 0; index_count < candidate_count; index_count++)
     {
-        candidates[i].name = argv[i + 1];
-        candidates[i].votes = 0;
+        candidates[index_count].name = argv[index_count + 1];
+        candidates[index_count].votes = 0;
     }
 
     int voter_count = get_int("Number of voters: ");
 
     // Loop over all voters
-    for (int i = 0; i < voter_count; i++)
+    for (int index_count = 0; index_count < voter_count; index_count++)
     {
         string name = get_string("Vote: ");
 
@@ -66,12 +66,12 @@ int main(int argc, string argv[])
 // Update vote totals given a new vote
 bool vote(string name)
 {
-    for (int i = 0; i < candidate_count; i++)
+    for (int index_count = 0; index_count < candidate_count; index_count++)
     {
         //compares candidate name with the input and increment vote if the name matches.
-        if (strcmp(candidates[i].name, name) == 0)
+        if (strcmp(candidates[index_count].name, name) == 0)
         {
-            candidates[i].votes++;
+            candidates[index_count].votes++;
             return true;
         }
     }
@@ -84,23 +84,22 @@ void print_winner(void)
 {
     int maxVotes = 0;
     //loop to find who got the highest vote
-    for (int i = 0; i < candidate_count; i++)
+    for (int index_count = 0; index_count < candidate_count; index_count++)
     {
-        if (candidates[i].votes > maxVotes)
+        if (candidates[index_count].votes > maxVotes)
         {
-            maxVotes = candidates[i].votes;
+            maxVotes = candidates[index_count].votes;
         }
     }
 
     //prints out the candidate name whose vote is highest.
-    for (int i = 0; i < candidate_count; i++)
+    for (int index_count = 0; index_count < candidate_count; index_count++)
     {
-        if (candidates[i].votes == maxVotes)
+        if (candidates[index_count].votes == maxVotes)
         {
-            printf("%s\n", candidates[i].name);
+            printf("%s\n", candidates[index_count].name);
         }
     }
     // TODO
     return;
 }
-
