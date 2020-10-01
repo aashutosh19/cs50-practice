@@ -1,5 +1,3 @@
-#include "helpers.h"
-
 // inside this file there are all the functions that get used to apply a filter to a picture
 
 #include "helpers.h"
@@ -47,9 +45,10 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
             sepiaGreen = limit(round(0.349 * image[row][column].rgbtRed + 0.686 * image[row][column].rgbtGreen + 0.168 * image[row][column].rgbtBlue));
             sepiaBlue = limit(round(0.272 * image[row][column].rgbtRed + 0.534 * image[row][column].rgbtGreen + 0.131 * image[row][column].rgbtBlue));
 
-            image[row][column].rgbtBlue = sepiaBlue;
-            image[row][column].rgbtGreen = sepiaGreen;
             image[row][column].rgbtRed = sepiaRed;
+            image[row][column].rgbtGreen = sepiaGreen;
+            image[row][column].rgbtBlue = sepiaBlue;
+
         }
     }
 }
