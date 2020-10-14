@@ -11,12 +11,14 @@ bool is_start_new_jpeg(BYTE buffer[]);
 
 int main(int argc, char *argv[])
 {
+    //making sure the proper usage
     if (argc != 2)
     {
         printf("Usage: ./recover image\n");
         return 1;
     }
 
+    //open the input file
     FILE* infile = fopen(argv[1], "r");
     if (infile == NULL)
     {
@@ -43,6 +45,7 @@ int main(int argc, char *argv[])
             outfile = fopen(filename, "w");
             if (outfile == NULL)
             return 1;
+            //if the output file has some open file, it writes
             fwrite(buffer, BLOCK_SIZE, 1, outfile);
         }
         else if (have_found_first_jpg)
@@ -54,6 +57,7 @@ int main(int argc, char *argv[])
     fclose(infile);
 }
 
+//Function to see if it is the start of new jpeg image.
 bool is_start_new_jpeg(BYTE buffer[])
 {
     return buffer[0] == 0xff && buffer[1] == 0xd8 && buffer && buffer[2] == 0xff && (buffer[3] & 0xf0);
