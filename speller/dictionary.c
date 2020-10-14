@@ -21,9 +21,8 @@ node;
 
 node *hashtable[HASHTABLE_SIZE];
 
-// Hashes the word (hash function posted on reddit by delipity)
-// The word you want to hash is contained within new node, arrow, word.
-// Hashing that will give you the index. Then you insert word into linked list.
+// Hashing the word that is contained within new node, arrow, word. Hashing that will result in index. Then we insert word into linked list.
+
 int hash_index(char *hash_this)
 {
     unsigned int hash = 0;
