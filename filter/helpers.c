@@ -21,7 +21,7 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     }
 }
 
-// stops max value at 255 preventing overflow
+//stops max value at 255 preventing overflow
 int limit(int RGB)
 {
     if (RGB > 255)
@@ -56,6 +56,26 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+    int temp[3];
+    for(int column = 0; column < height; column++)
+    {
+        for (int row = 0; row < width / 2; row++)
+        {
+            temp[0] = image[row][column].rgbtBlue;
+            temp[1] = image[row][column].rgbtRed;
+            temp[2] = image[row][column].rgbtGreen;
+
+            image[row][column].rgbtBlue = image[width - row - 1][column].rgbtBlue;
+            image[row][column].rgbtRed = image[width - row - 1][column].rgbtRed;
+            image[row][column].rgbtGreen = image[width - row - 1][column].rgbtGreen;
+
+            image[width - row - 1][column].rgbtBlue = temp[0];
+            image[width - row - 1][column].rgbtRed = temp[1];
+            image[width - row - 1][column].rgbtGreen = temp[2];
+
+        }
+
+    }
     return;
 }
 
