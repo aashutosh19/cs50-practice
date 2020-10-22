@@ -187,5 +187,121 @@ return;
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+
+    RGBTRIPLE copy[height][width];
+
+    for (int rows = 0; rows < height; rows++)
+    {
+        for (int column = 0; column < width; column++)
+        {
+            float rGx, gGx, bGx, rGy, gGy, bGy;
+            rGx = gGx = bGx = rGy = gGy = bGy = 0;
+
+            // Up
+            if (rows > 0)
+            {
+                rGy += -2 * image[rows-1][column].rgbtRed;
+                gGy += -2 * image[rows-1][column].rgbtGreen;
+                bGy += -2 * image[rows-1][column].rgbtBlue;
+            }
+            // Down
+            if (rows < height - 1)
+            {
+
+                rGy += 2 * image[rows+1][column].rgbtRed;
+                gGy += 2 * image[rows+1][column].rgbtGreen;
+                bGy += 2 * image[rows+1][column].rgbtBlue;
+            }
+            // Left
+            if (column > 0)
+            {
+                rGx += -2 * image[rows][column-1].rgbtRed;
+                gGx += -2 * image[rows][column-1].rgbtGreen;
+                bGx += -2 * image[rows][column-1].rgbtBlue;
+
+            }
+            // Right
+             if (column < height - 1)
+            {
+                rGx += 2 * image[rows][column+1].rgbtRed;
+                gGx += 2 * image[rows][column+1].rgbtGreen;
+                bGx += 2 * image[rows][column+1].rgbtBlue;
+
+            }
+            // Up left
+            if (rows >= 1 && column >= 1)
+            {
+                // Primeros tres valores, cambiando de signo muevo de lado el resultado
+                rGx += -1 * image[rows-1][column-1].rgbtRed;
+                gGx += -1 * image[rows-1][column-1].rgbtGreen;
+                bGx += -1 * image[rows-1][column-1].rgbtBlue;
+                rGy += -1 * image[rows-1][column-1].rgbtRed;
+                gGy += -1 * image[rows-1][column-1].rgbtGreen;
+                bGy += -1 * image[rows-1][column-1].rgbtBlue;
+            }
+            // Up right
+            if (rows > 0 && column < width - 1)
+            {
+                rGx += 1 * image[rows-1][column+1].rgbtRed;
+                gGx += 1 * image[rows-1][column+1].rgbtGreen;
+                bGx += 1 * image[rows-1][column+1].rgbtBlue;
+                rGy += -1 * image[rows-1][column+1].rgbtRed;
+                gGy += -1 * image[rows-1][column+1].rgbtGreen;
+                bGy += -1 * image[rows-1][column+1].rgbtBlue;
+            }
+            // Bottom right
+            if (rows < height - 1  && column < width - 1)
+            {
+                rGx += 1 * image[rows+1][column+1].rgbtRed;
+                gGx += 1 * image[rows+1][column+1].rgbtGreen;
+                bGx += 1 * image[rows+1][column+1].rgbtBlue;
+                rGy += 1 * image[rows+1][column+1].rgbtRed;
+                gGy += 1 * image[rows+1][column+1].rgbtGreen;
+                bGy += 1 * image[rows+1][column+1].rgbtBlue;
+            }
+            // Bottom left
+            if (rows < height - 1  && column > 0)
+            {
+                rGx += -1 * image[rows+1][column-1].rgbtRed;
+                gGx += -1 * image[rows+1][column-1].rgbtGreen;
+                bGx += -1 * image[rows+1][column-1].rgbtBlue;
+                rGy += 1 * image[rows+1][column-1].rgbtRed;
+                gGy += 1 * image[rows+1][column-1].rgbtGreen;
+                bGy += 1 * image[rows+1][column-1].rgbtBlue;
+            }
+
+            // Compute result
+            copy[rows][column].rgbtRed = (int) cap255(sqrt((rGx*rGx)+(rGy*rGy)));
+            copy[rows][column].rgbtGreen = (int) cap255(sqrt((gGx*gGx)+(gGy*gGy)));
+            copy[rows][column].rgbtBlue = (int) cap255(sqrt((bGx*bGx)+(bGy*bGy)));
+        }
+    }
+
+    for (int rows = 0; rows < height; rows++)
+        {
+            for (int column = 0; column < width; column++)
+            {
+                image[rows][column] = copy[rows][column];
+            }
+        }
     return;
+}
+
+int cap255(double count)
+{
+    int result = 0;
+
+    if (count >= 255)
+    {
+        result = 255;
+    }
+    else if(count < 0)
+    {
+        result = 0;
+    }
+    else
+    {
+        result = (int) round(count);
+    }
+    return (result);
 }
